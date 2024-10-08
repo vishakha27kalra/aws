@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: EC2 Instance from Snapshot
+
+Parameters:
+  SnapshotId:
+    Type: String
+    Description: The ID of the snapshot to create the instance from.
+  
+  InstanceType:
+    Type: String
+    Default: t2.micro
+    Description: EC2 instance type.
+
+Resources:
+  MyEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref SnapshotId
+      InstanceType: !Ref InstanceType
+      KeyName: testing  # Change to your key pair name
+      SecurityGroupIds:
+        - sg-032fc0b092fef41e5  # Change to your security group ID
+      SubnetId: subnet-010a5fd88c9207d9e  # Change to your subnet ID
+
+Outputs:
+  InstanceId:
+    Description: The Instance ID of the newly created EC2 instance.
+    Value: !Ref MyEC2Instance
